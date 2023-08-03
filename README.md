@@ -17,16 +17,16 @@ and location data</h4>
 
 
 ## Technical Requirements
-● The app must be written in React Native.
-● The app must be developed using Expo.
-● The app must be styled according to the given screen design.
-● Chat conversations must be stored in Google Firestore Database.
-● The app must authenticate users anonymously via Google Firebase authentication.
-● Chat conversations must be stored locally.
-● The app must let users pick and send images from the phone’s image library.
-● The app must let users take pictures with the device’s camera app, and send them.
-● The app must store images in Firebase Cloud Storage.
-● The app must be able to read the user’s location data.
+- The app must be written in React Native.
+- The app must be developed using Expo.
+- The app must be styled according to the given screen design.
+- Chat conversations must be stored in Google Firestore Database.
+- The app must authenticate users anonymously via Google Firebase authentication.
+- Chat conversations must be stored locally.
+- The app must let users pick and send images from the phone’s image library.
+- The app must let users take pictures with the device’s camera app, and send them.
+- The app must store images in Firebase Cloud Storage.
+- The app must be able to read the user’s location data.
 
 ## Used technologies
 - React Native Framework
