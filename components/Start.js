@@ -4,15 +4,15 @@ import { ImageBackground, StyleSheet, Text, KeyboardAvoidingView, View, TextInpu
 const image = require('../media/bg-image.png');
 
 const backgroundColors = {
-    a: '#474056',
-    b: '#757083',
-    c: '#8A95A5',
-    d: '#B9C6AE',
+    taro: '#474056',
+    gray: '#757083',
+    vanilla: '#FFCBA5',
+    green: '#B9C6AE',
 };
 
 const Start = ({navigation}) => {
     const [name, setName] = useState('');
-    const [color, setColor] = useState(backgroundColors.d);
+    const [color, setColor] = useState(backgroundColors.green);
  
     return (
         <View style={styles.container}>
@@ -31,41 +31,45 @@ const Start = ({navigation}) => {
                         <TouchableOpacity 
                             style={[
                                 styles.circle, 
-                                color === backgroundColors.a && styles.selectedCircle, 
-                                {backgroundColor: backgroundColors.a}
+                                color === backgroundColors.taro && styles.selectedCircle, 
+                                {backgroundColor: backgroundColors.taro}
                             ]}
-                            onPress={() => setColor(backgroundColors.a)}
+                            onPress={() => setColor(backgroundColors.taro)}
                         >
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={[
                                 styles.circle, 
-                                color === backgroundColors.b && styles.selectedCircle, 
-                                {backgroundColor: backgroundColors.b}
+                                color === backgroundColors.gray && styles.selectedCircle, 
+                                {backgroundColor: backgroundColors.gray}
                             ]}
-                            onPress={() => setColor(backgroundColors.b)}
+                            onPress={() => setColor(backgroundColors.gray)}
                         >
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={[
                                 styles.circle, 
-                                color === backgroundColors.c && styles.selectedCircle,
-                                {backgroundColor: backgroundColors.c}
+                                color === backgroundColors.vanilla && styles.selectedCircle,
+                                {backgroundColor: backgroundColors.vanilla}
                             ]}
-                            onPress={() => setColor(backgroundColors.c)}
+                            onPress={() => setColor(backgroundColors.vanilla)}
                         >
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={[
                                 styles.circle, 
-                                color === backgroundColors.d && styles.selectedCircle,
-                                {backgroundColor: backgroundColors.d}
+                                color === backgroundColors.green && styles.selectedCircle,
+                                {backgroundColor: backgroundColors.green}
                             ]}
-                            onPress={() => setColor(backgroundColors.d)}
+                            onPress={() => setColor(backgroundColors.green)}
                         >
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity 
+                    <TouchableOpacity
+                        accessible={true}
+                        accessibilityLabel="More options"
+                        accessibilityHint="Let’s you choose to send an image or your geolocation."
+                        accessibilityRole="button"
                         style={styles.button}
                         onPress={() => navigation.navigate('Chat', { name: name, color: color } )}
                     >
