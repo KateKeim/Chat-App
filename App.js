@@ -6,10 +6,33 @@ import Chat from "./components/Chat";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+// import Firestore noSQL database
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
 //creating the navigator
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBFyfYpwVUv0km4Vq8lLN_joqgjWcgixEc",
+  authDomain: "chat-app-1986c.firebaseapp.com",
+  projectId: "chat-app-1986c",
+  storageBucket: "chat-app-1986c.appspot.com",
+  messagingSenderId: "610026366048",
+  appId: "1:610026366048:web:b51a1209a88b2eda4c4f05",
+  measurementId: "G-M0R7GWP031"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -21,8 +44,9 @@ const App = () => {
         />
         <Stack.Screen
           name="Chat"
-          component={Chat}
-        />
+        >
+        {props => <Chat db={db} {...props} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   )

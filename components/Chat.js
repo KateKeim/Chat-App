@@ -1,48 +1,54 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform } from "react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
   
     
-const Chat = ({ route, navigation }) => {
+const Chat = ({ route, navigation, db }) => {
     const {name, color} = route.params;
+    const { userID } = route.params
     const [messages, setMessages] = useState([]);
-    const onSend = (newMessages) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
-      }
-
 
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: "Hi! how was your day? Meaw~",
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: "Jackson",
-                    avatar: "http://placekitten.com/140/140",
-                },
-            },
-            {
-                _id: 2,
-                text: 'This is a system message',
-                createdAt: new Date(),
-                system: true,
-              },
-            ]);
-        
-        navigation.setOptions({title: name});
-    }, []);
+      navigation.setOptions({ title: name });
+      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+      const unsubMessages = onSnapshot(q, (docs) => {
+        let newMessages = [];
+        docs.forEach(doc => {
+          newMessages.push({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: new Date(doc.data().createdAt.toMillis())
+          })
+        })
+        setMessages(newMessages);
+      })
+      return () => {
+        if (unsubMessages) unsubMessages();
+      }
+     }, []);
+
+    useEffect(() => {
+    //Setting the title to 'name'
+    navigation.setOptions({ title: name })
+  }, []);
+
+  //Add new messages to the existing messages
+const onSend = (newMessages) => {
+  addDoc(collection(db, "messages"), newMessages[0])
+}
+
 
     return (
-        <View style={[styles.container, {backgroundColor: color}]}>
+        <View style={[styles.container, {backgroundColors: color}]}>
             <GiftedChat
                 messages={messages}
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: 1
-            }}
+                  _id: userID,
+                  name,
+                }}
             />
             
         </View>
