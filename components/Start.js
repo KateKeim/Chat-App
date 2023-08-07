@@ -15,13 +15,13 @@ const backgroundColors = {
 
 const Start = ({navigation}) => {
     const [name, setName] = useState('');
-    const [color, setColor] = useState(backgroundColors.green);
+    const [color, setColor] = useState(backgroundColors);
     
     const auth = getAuth();
     const AnonymousSignIn = () => {
         signInAnonymously(auth).then(
             result => {
-                navigation.navigate("Chat", { name: name, backgroundColors: backgroundColors.green, userID: result.user.uid });
+                navigation.navigate("Chat", { name: name, backgroundColors: backgroundColors, userID: result.user.uid });
                 Alert.alert("Signed in Successfully!");
             }
         ).catch((error) => {
