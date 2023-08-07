@@ -1,6 +1,8 @@
 
 <h1>Chat App</h1>
 
+![image description](./media/ChatAppScreen.jpg)
+
 <h4>Feature 1: A page where users can enter their name and choose a background color for the chat screen
 before joining the chat.</h4>
 
