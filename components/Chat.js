@@ -3,11 +3,14 @@ import { StyleSheet, View } from "react-native";
 import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
-//import Async storage
+// import Async storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
-  
+
+// import feature access to user camera
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
     
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
     const {name, color} = route.params;
     const { userID } = route.params
     const [messages, setMessages] = useState([]);
@@ -74,6 +77,35 @@ const renderInputToolbar = (props) => {
   else return null;
 };
 
+const renderCustomActions = (props) => {
+  // renderCustomActions function
+  return <CustomActions onSend={onSend} userID={userID} storage={storage} {...props} />;
+};
+
+const renderCustomView = (props) => {
+  const { currentMessage } = props;
+  if (currentMessage.location) {
+    return (
+      <MapView
+        style={{
+          width: 150,
+          height: 100,
+          borderRadius: 13,
+          margin: 3,
+        }}
+        region={{
+          latitude: currentMessage.location.latitude,
+          longitude: currentMessage.location.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+    );
+  }
+  return null;
+};
+
+
     return (
         <View style={[styles.container, {backgroundColors: color}]}>
             <GiftedChat
@@ -81,6 +113,8 @@ const renderInputToolbar = (props) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 renderInputToolbar={renderInputToolbar}
+                renderActions={renderCustomActions}
+                renderCustomView={renderCustomView}
                 user={{
                   _id: userID,
                   name,
